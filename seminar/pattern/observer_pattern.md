@@ -57,8 +57,6 @@ Note:
 ![_](https://www.plantuml.com/plantuml/png/ROx13S8m34NldY8BP0LKYLuvmG9HS8jL9qMEmudXGL5LEMgFyVl_vmr5WsXD3953AUxAQro0ig9C8Q9xKCBxMYNY5hZz-U4uqamQ-BHCUJ7L_MJ_6uK-A01WNiupJkelrg33GlDhvssnOUVhst-xMgzy4h3w5hTPOts40-PdJVm3)
 
 
-
-
 ```cs [5-7|9,14|10-12,15-17]
 [TestFixture]
 public class ClockDeriverTest{
@@ -92,12 +90,10 @@ Note:
 일단 UML에서 필요없는 부분은 제거하고 보겠습니다.
 
 
-
 ![_](https://www.plantuml.com/plantuml/png/RP11JiOW48NtSmgMDHOEO0nfebjNrGCGEhMaq3R3u4QzkoWcfUHV0VE-ztWmH3R4ANXm6oFDng9uTG77FP75JxWVaP_9VI1rPRc3Rx3Un2XUThkswE-vM_hGnyoraMvRMwfDAnJypvvy7fPhi_7jc0nNFgXa8JtEB7NL7SwjK8hS-y9AwThp81uFGoOW8-bhsX-Uuyv6TJyXqo6_AlNw5HUvTBb5wFfzCE0sfU1_0000)
 
 Note:
 TimeSource에서 Driver에게 시간이 변경된 것을 알려주려면 TimeSource 가 Driver를 들고 있어야 합니다.
-
 
 
 ```cs
@@ -147,8 +143,6 @@ Note:
 코드로 보면 이런 식으로 들고있다가 SetTime이 되었을 때, Driver의 Update를 호출해서 Sink로 데이터를 전달할 수 있습니다.
 
 
-
-
 ![_](https://www.plantuml.com/plantuml/png/RP11JiOW48NtSmgMDHOEO0nfebjNrGCGEhMaq3R3u4QzkoWcfUHV0VE-ztWmH3R4ANXm6oFDng9uTG77FP75JxWVaP_9VI1rPRc3Rx3Un2XUThkswE-vM_hGnyoraMvRMwfDAnJypvvy7fPhi_7jc0nNFgXa8JtEB7NL7SwjK8hS-y9AwThp81uFGoOW8-bhsX-Uuyv6TJyXqo6_AlNw5HUvTBb5wFfzCE0sfU1_0000)
 
 Note:
@@ -161,3 +155,25 @@ Note:
 
 Note:
 ClockObserver를 만들어서
+
+
+---
+
+## Example
+### CCSDS Gateway (Telemetry Manager)
+
+![_](https://www.plantuml.com/plantuml/png/VP11IyD048Nl-ok6db8b1QyYeL14Sj0AzGziDg_9ucQtp4wielvtanQgpKflEpllVJDlbb4qIzyvPRs0jzg0odKLmM_WknSuT13-AFqs59_gUkrNeTiv2EfiFfRtp86FpoUyItRccAll5AihXnIywQjes5R8HfCoJiT89zLpNpaRM_2qiTAcXLBdDUNzBlyg_WvKAMgY0YUOaFysR-bciRXA5dlKNZVWShZ9488U81jXwEwOuZ_POMmnIN1HcHx11m6nRLgXuCbP_qhACBI0jA-9qTWeODfRQSaSigXz2q-pquApuTyvr0g3OUIfvV3gE_S3)
+
+Note: 
+예시로는 CCSDS Gateway의 Telemetry Manager 를 가져왔습니다.
+Telemetry Manager에는 옵저버 패턴이 적용되었습니다.
+Telemetry Cache는 새로운 TC가 전송되거나 TM 을 수신하였을 때 해당 정보가 저장되는 저장소 입니다.
+Telemetry Manager Impl 은 새로운 Stream 요청이 들어오면 Telemetry Publisher를 생성해서 Cache 에 등록합니다.
+Stream 은 특정 Key를 가진 TM 에 대한 Stream 일 수도 있고, Decoded TM 에 대한 Stream일 수도 있습니다. 어떤 정보를 가진 Stream 인지는 각 Telemetry Publisher가 가지고 있습니다.
+Telemetry Cache 에서는 새로운 TM 이 수신되면 해당 정보를 등록된 모든 Telemetry Publisher 에게 전달합니다.
+각 Telemetry Publisher는 자신에게 필요한 정보만을 필터링해서 Stream에 업데이트 합니다.
+
+---
+## Applicability
+
+#### When 
