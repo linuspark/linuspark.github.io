@@ -151,29 +151,182 @@ Note:
 이 문제를 해결하기 위해서 인터페이스를 하나 더 만들어봅니다
 
 
-![_](https://www.plantuml.com/plantuml/png/TP113i8W44Ntd89bZIr7Q9herhYe7W3fr992smpWHhsxA1g1w0gOUVyFVnfZELgd5P6J1Uov07gG6jhPeO0hMRTWjoWlW4KuLkHEXEB6qDqinXnzlekXrANnN6uffp6dShT0aNTjetmnZFN2uz9n6-aY-nUuFnd0FsZaH2ktLBSwrMI4WjvMTRG8yhrInjp2M9tg4pdAy_3HXpnnkl21g9ikCcc7uR-8F403K-UqUW00)
+![_](https://www.plantuml.com/plantuml/png/RP1D3i8W48Ntd89bZIr7Q9herhYe7W3fr992smpGZNftwmyAf3kOUT-RULCPoz4whOWSB63B1T2Jr52F3WNSoBO6UxmOm1amswbHzFwt8GyY53U67fPgohp-MPVht2owr5iEVQgAtRoAV6llmNkKC-02dgU6su0BxACDrwI14otSLDpBc4aK2bfRbC55oFz96NCJOsNCHpZAQ-VvJvumdL_WruqF6RJzy3L56g22eN5QFG40)
 
 Note:
-ClockObserver를 만들어서
+ClockObserver를 만들어서 순환 참조를 없앴습니다.<br>
+그리고 TimeSource는 Driver와의 의존성이 없어지고 Observer를 구현하는 구현체를 받아 사용할 수 있게 되었습니다.<br>
+그런데 이제 보니 ClockObserver와 TimeSink의 메소드 형태가 똑같다? TimeSink에서 ClockObserver를 구현해도 될 것 같아 보입니다.그렇게하면 ClockDriver를 없앨 수 있겠죠
+
+
+![_](https://www.plantuml.com/plantuml/png/ROv13e8m44NtSuekCKAFG4XS6nVe0MePfQ4jP3frezvTN11Qmd9-tdjj4rWHHsV1U4PwA8tYQXosOoIDRpYso9TxG7eX5ISxwc6v3l05RLK8uZolM-T_5ttfoh336Jz0ybwMdVNRr2bER5ZZGaeopvwbh3CB88sBAaxLfnOvadzpOTO5zeXjf47VHMT_)
+
+Note:
+여기에 TimeSource에서 여러개의 TimeSink가 시간을 받을 수 있으면 좋겠습니다.
+Observer가 하나가 아니라 여러개를 등록할 수 있도록 바꾸겠습니다. 
+
+
+![_](https://www.plantuml.com/plantuml/png/ROwn3e8m48RtUugEgD34rO6GE1iJqGUevOI65aZlwgA-kpWGg67y__xVrok8bUVWB9YEqJ-KHd4r3ii-U8qls5smDZI-dE-4_ea-ETfUjrFQm0UqLKJYDBOHM2B_SjAaBgMLdUbQM7mQQKVyDbIA5pJCSY6bDtN3KkOH1R2KYomCsJkFnH2VEMtc1jOMVn9n47ifjr1WLmLdlm00)
+
+Note:
+뭔가 그럴듯 해졌죠.
+코드로 한번 볼게요
+
+
+```cs
+[TestFixture]
+public class ClockDeriverTest{
+	[Test]
+	public void TestTimeChange(){
+		var source = new MockTimeSource();
+		var sink = new MockTimeSink();
+		source.RegisterObserver(sink);
+
+		source.SetTime(3, 4, 5);
+		AssertSinkEquals(sink, 3, 4, 5);
+
+		source.SetTime(6, 7, 8);
+		AssertSinkEquals(sink, 6, 7, 8);
+	}
+	private void AssertSinkEquals(MockTimeSink sink, int hours, int minutes, int seconds){
+		Assert.AreEqual(hours, sink.GetHours());
+		Assert.AreEqual(minutes, sink.GetMinutes());
+		Assert.AreEqual(seconds, sink.GetSeconds());		
+	}
+}
+
+public interface TimeSource {
+	void RegisterObserver(ClockObserver driver);
+}
+
+public class MockTimeSource: TimeSource {
+	private List<ClockObserver> _observers = new List<ClockObserver>();
+	public void RegisterObserver(ClockObserver observer){
+		_observers.Add(observer);
+	}
+	public void SetTime(int hours, int minutes, int seconds){
+		foreach(var observer in _observers){
+			observer.Update(hours, minutes, seconds);
+		}
+	}
+}
+
+public interface ClockObserver {
+	void Update(int hours, int minutes, int seconds);
+}
+public class MockTimeSink: ClockObserver{
+	private int _hours;
+	private int _minutes;
+	private int _seconds;
+	public void Update(int hours, int minutes, int seconds){
+		_hours = hours;
+		_minutes = minutes;
+		_seconds = seconds;
+	}
+	public int GetHours() => _hours;
+	public int GetMinutes() => _minutes;
+	public int GetSeconds() => _seconds;
+}
+```
+
+
+![_](https://www.plantuml.com/plantuml/png/ROwn3e8m48RtUugEgD34rO6GE1iJqGUevOI65aZlwgA-kpWGg67y__xVrok8bUVWB9YEqJ-KHd4r3ii-U8qls5smDZI-dE-4_ea-ETfUjrFQm0UqLKJYDBOHM2B_SjAaBgMLdUbQM7mQQKVyDbIA5pJCSY6bDtN3KkOH1R2KYomCsJkFnH2VEMtc1jOMVn9n47ifjr1WLmLdlm00)
+
+Note:
+다시 UML로 돌아와서, MockTimeSource에서 SetTime이 호출될 때 모든 Observer 들의 Update를 호출해줘야 합니다. 우리는 실제로 Mock객체를 사용할 것이 아니라 Concrete객체를 만들어 사용해야 할 텐데 그 때마다 특정 이벤트가 발생하였을 때 Observer의 Update를 호출하는 코드를 작성해야 하는거죠.
+갱신 작업을 하는 코드를 중복해서 만들기 싫을 뿐더러 우리가 사용할 Clock 객체에 Observer의 등록/업데이트 작업이 속한다는 생각도 들지 않습니다.
+
+
+![_](https://www.plantuml.com/plantuml/png/PP3D2e9058Ntzoa6scWvGji24LfNaFK0utZLmH_bpZM8wjqpI7HeUORlV6UuiML5F3GrgDGoAStYQXfCke4qFc5pmS9OHZgd5kcEv1tgJbTJyc5rwjZa3wyCci3wUtY3hfMruZXIZYX1_kOV-C-PjW8mBIFbIgDmPiRwhSyKBzemouKaKvGi8wSZTc8RXck0vOAGGozVaMi7zwyJCxy0nDXcuuq-)
+
+```cs
+public class MockTimeSource: TimeSource {
+	public void SetTime(int hours, int minutes, int seconds){
+		Notify(hours, minutes, seconds);
+	}
+}
+```
+
+Note: 
+TimeSource를 추상클래스로 바꾸고 TimeSource 내에서 Observer를 등록하고 업데이트 하는 작업을 가져갔습니다.
+상속받은 클래스에서는 그냥 Notify함수를 호출하기만 하면 Observer들에게 알림이 갑니다.
 
 
 ---
+### Two Case
 
-## Example
-### CCSDS Gateway (Telemetry Manager)
+1. Pull Model
+    - Observer class has subject.
+    - When Notify is called, get the data from subject
+
+2. Push Model
+    - When Notify is called, subject push data(or hint) to observer
+
+Note:
+옵저버패턴에는 기본적으로 두 가지 구현 방식이 있습니다. <br>
+데이터를 가져오는 방식의 pull model과 데이터를 밀어넣어 주는 방식의 push model입니다. <br>
+데이터를 가져오는 방식은 Observer가 Subject를 가지고 있고 Notify신호가 오면 들고있는 객체에서 데이터를 꺼내오면 되는 방식입니다. <br>
+반면 데이터를 밀어넣어주는 방식은 Notify 신호를 줄 때 전달하고자 하는 데이터를 함께 전달해주는 방식입니다.
+각각 언제 사용하면 될까요? <br>
+
+
+### Pull Model
+![_](https://www.plantuml.com/plantuml/png/NOz12y8m38Nl-HKzReuEl7eO0pqhAFw0haj7jMwZJGLH_xl56X5l8U-zxoLj8EKfNXnefq8GXzYTK9EuGxN7mGP2N-owWFwAleHgEv4rjwA49u0TasYKHi6653hElIBCXanSkqcVF_F63fQKoolWBjby2IknhEi5l0r2nba-6Zu9EFohSGx-L8U64ZONjJZswSCN)
+```cs
+public class DigitalClock: Observer{
+	public void Update(){
+		this._hours = _clock.GetHours();
+		this._minutes = _clock.GetMinutes();
+		this._seconds = _clock.GetSeconds();
+	}
+}
+```
+Note:
+코드를 보면 알겠지만, Notify와 Update함수는 그냥 이벤트에 대한 신호 역할만 수행합니다.  <br>
+신호를 받으면 Digital Clock이 알아서 시간을 가져와야 하는거죠. <br>
+
+
+### Push Model
+![_](https://www.plantuml.com/plantuml/png/JO_F2i8m38VlUOeUDxSEl7eO0pqhA3v0rsMpslsXIGLHtztYhEmMak_x9Qc8bMFVMz1M4OcJhw-eMJmXEs9dYD4bXvhGtT6baEr7DkqZkUHzJYcy0SmGY5Pf594Avdbg5EE2chEtTjItNxqpdM5bvnR4hRBynsp4kYXMy0M4z9DybV4uYF9o5ZseS6Z2Fny0)
+```cs
+public class DigitalClock: Observer{
+	public void Update(int hours, int minutes, int seconds){
+		this._hours = hours;
+		this._minutes = minutes;
+		this._seconds = seconds;
+	}
+}
+```
+Note:
+여기 보면 밀어내는 구조에서는 Notify와 Update에서 데이터를 전달해 줍니다. <br>
+Digital Clock은 전달받은 Data를 이용하여 업데이트를 하면 됩니다. <br>
+
+
+---
+### Example : CCSDS Gateway (Telemetry Manager)
 
 ![_](https://www.plantuml.com/plantuml/png/VP11IyD048Nl-ok6db8b1QyYeL14Sj0AzGziDg_9ucQtp4wielvtanQgpKflEpllVJDlbb4qIzyvPRs0jzg0odKLmM_WknSuT13-AFqs59_gUkrNeTiv2EfiFfRtp86FpoUyItRccAll5AihXnIywQjes5R8HfCoJiT89zLpNpaRM_2qiTAcXLBdDUNzBlyg_WvKAMgY0YUOaFysR-bciRXA5dlKNZVWShZ9488U81jXwEwOuZ_POMmnIN1HcHx11m6nRLgXuCbP_qhACBI0jA-9qTWeODfRQSaSigXz2q-pquApuTyvr0g3OUIfvV3gE_S3)
 
 Note: 
-예시로는 CCSDS Gateway의 Telemetry Manager 를 가져왔습니다.
-Telemetry Manager에는 옵저버 패턴이 적용되었습니다.
-Telemetry Cache는 새로운 TC가 전송되거나 TM 을 수신하였을 때 해당 정보가 저장되는 저장소 입니다.
-Telemetry Manager Impl 은 새로운 Stream 요청이 들어오면 Telemetry Publisher를 생성해서 Cache 에 등록합니다.
-Stream 은 특정 Key를 가진 TM 에 대한 Stream 일 수도 있고, Decoded TM 에 대한 Stream일 수도 있습니다. 어떤 정보를 가진 Stream 인지는 각 Telemetry Publisher가 가지고 있습니다.
-Telemetry Cache 에서는 새로운 TM 이 수신되면 해당 정보를 등록된 모든 Telemetry Publisher 에게 전달합니다.
-각 Telemetry Publisher는 자신에게 필요한 정보만을 필터링해서 Stream에 업데이트 합니다.
+예시로는 CCSDS Gateway의 Telemetry Manager 를 가져왔습니다. <br>
+Telemetry Manager에는 옵저버 패턴이 적용되었습니다. <br>
+Telemetry Cache는 새로운 TC가 전송되거나 TM 을 수신하였을 때 해당 정보가 저장되는 저장소 입니다. <br>
+Telemetry Manager Impl 은 새로운 Stream 요청이 들어오면 Telemetry Publisher를 생성해서 Cache 에 등록합니다. <br>
+Stream 은 특정 Key를 가진 TM 에 대한 Stream 일 수도 있고, Decoded TM 에 대한 Stream일 수도 있습니다. 어떤 정보를 가진 Stream 인지는 각 Telemetry Publisher가 가지고 있습니다. <br>
+Telemetry Cache 에서는 새로운 TM 이 수신되면 해당 정보를 등록된 모든 Telemetry Publisher 에게 전달합니다. <br>
+각 Telemetry Publisher는 자신에게 필요한 정보만을 필터링해서 Stream에 업데이트 합니다. <br>
 
 ---
 ## Applicability
+- When tracking the status of a dynamically changing object.
+- Need to observe the state of an object only under specific use case.
 
-#### When 
+Note:
+옵저버 패턴의 사용을 고려해야 할 때를 정리해보았습니다. <br>
+먼저, 동적으로 변하거나 언제 변할지 모르는 객체의 상태를 추적하려고 할 때 옵저버를 고려해야 합니다. <br>
+예를들면 유저인터페이스를 통해 변하는 객체의 상태변화 등을 예로 들 수 있습니다. <br>
+그리고, 제한된 시간이나 특정 상황에서만 객체의 상태를 구독해야 하는 경우 옵저버를 고려합니다. <br>
+이건 런타임에 특정 객체의 상태에 대한 알림을 받거나 받지 않거나 선택할 수 있어야 하는 상황을 이야기합니다.  <br>
+
+---
+## End
