@@ -16,8 +16,6 @@ Note:
 
 ## Structure
 ![_](https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Bridge_UML_class_diagram.svg/1500px-Bridge_UML_class_diagram.svg.png)
-
-
 ```csharp
 var absraction = new RefinedAbstraction(new ConcreteImplementor());
 abstraction.function();
@@ -76,7 +74,7 @@ Note:
 Note:
 브리지 패턴을 적용하면 이런 모양이 되는데요<br>
 "모양"이라는 자유도와 "색" 이라는 자유도를 각각 독립적인 계층구조로 분리한 것입니다.<br>
-여기서늠 '모양'을 추상화라고 보고, 색을 칠하는 것을 구현체라고 보았습니다.<br>
+여기서는 '모양'을 추상화라고 보고, 색을 칠하는 것을 구현체라고 보았습니다.<br>
 모양은 색상에 대한 구체적인 업무를 '색' 계층에게 위임하였습니다.<br>
 이 Color에 대한 참조가 Shape와 Color사이의 bridge가 됩니다. <br>
 
@@ -102,7 +100,7 @@ Note:
 
 
 #### Adaptor Solution
-![_](https://www.plantuml.com/plantuml/png/RP6nJiCm48RtUuhR8Jm0GrL4fIAbBBGyW6LVYoNNYMA7fI0n50d1oi3G8Xu0iS384n4_1AVK4Q7ovDmV__T_TnuwBofVBmrewwcQ2qbuNYXQhk00HreOFiw4NTGbVqp9AZukI9A-9hW5a4OuXzEyjSGgd_MhoRXVZKXfAJofLZnHekHGi8Kdz4M9nJnzunWLe_nyVkDLonAsTnYUDit7U_Fs4BPVuVxb21tJ7MArWsiUdp5irk5rdKnUfQVHbJHn_bEZoVfEOlUbOr98uc5sCzYv85x4B1liHKAlBV_k375tcDNbNvTybX0duuJuFmEvRPgGDqY65gp3aEVc1_y5)
+![_](https://www.plantuml.com/plantuml/png/RL71IWCn4BtFLynTumU8b8g52gqNMpyW9DCQIBDBalLI1GyLHAyUFBJY1uWNFVf5RZx2ORl5LNAQdRVpvhqtwOSeVQmM5eoBv6TI4PuLcXPBsCE1aPRBgNJpgkIF2JdDvPmKcIk26m1bPGWu6JMKjXjDkzrusEq6f8sIaNG37cjPiYYu8XB6eiHYbfyuHCrMlZ--yBBnaZQtc1xNzVjR_NgVDf_fxla00xlRHxyrLpyyOLglqiiggxpCfp5UsJR_YJNauWvYzaKW3v2rX-AwjsL1EuX2zFv9GcSj_zuHsjkXgChVBQDf1XmFC-1V3JmIc7V85oHBSyQXpxdvmNy0)
 
 Note:
 중간에 인터페이스를 호환시켜 줄 어댑터를 만들어서 구현하는 방법입니다.
@@ -129,7 +127,7 @@ ModemConnectionController는 연결방식에 대한 계층구조를 만들어냅
 
 ---
 ## Applicability
-- Independant dimention
+- Separate the object that has Independent dimension.
 - Subfunctions that various variations 
 - Runtime change the implementation
 
@@ -137,7 +135,7 @@ Note:
 이 두 예시들을 보면 알겠지만 브리지 패턴을 사용할 때에는 보통 독립적인 자유도,차원이 함께 구현된 객체를 만났을 때 입니다.<br>
 하나의 객체가 너무 많은 변경될 이유를 가지고 있을 때 서로 가진 속성을 기준으로 나누어 브리지패턴을 사용할 수 있겠죠<br>
 두 번째는 일부 기능에 대해서 다양한 변형이 있는 경우라고 이야기하는데요 <br>
-여기에는 전형적인 예시케이스가 있습니다. 바로 플렛폽 호환성의 어플리케이션 입니다. <br>
+여기에는 전형적인 예시케이스가 있습니다. 바로 플랫폼 호환성의 어플리케이션 입니다. <br>
 특정 어플리케이션이 플렛폼에 따라 다르게 동작해야 하는 경우 이런 브릿지 패턴을 이용합니다.<br>
 예를 들어 웹 페이지의 경우 크롬 브라우저에서 표현할지, 익스플로러 에서 표현될지에 따라 다르게 동작외더야 하는 경우가 있는데 이런 경우를 말합니다.<br>
 마지막으로 런타임에 구현사항을 변경할 필요가 있는 경우 인데요<br>
