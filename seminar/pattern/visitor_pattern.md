@@ -22,7 +22,7 @@ Note:
 이런 문제를 해결하기 위해 나온 패턴이 비지터 패턴 그룹 입니다.
 
 ---
-## Vidisot Pattern Group
+## Visitor Pattern Group
 - Visitor Pattern
 - Acyclic Visitor Pattern
 - Decorator Pattern
