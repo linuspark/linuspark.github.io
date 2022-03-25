@@ -96,7 +96,7 @@ Context 역할을 하는 Turnstile 객체는 모든 이벤트와 엑션들을 �
 실제 코드로 구현을 보겠습니다. 
 
 
-```csharp
+```csharp [|1-5|7-18|20-31]
 interface TurnstileState
 {
 	void coin(Turnstile t);
@@ -137,7 +137,7 @@ Pass 이벤트에서는 Alarm 액션을 수행하게 됩니다.
 Unlocked 상태에서는 Coin 이벤트를 받으면 Thankyou 액션을 수행하고, Pass 이벤트를 받으면 Locked상태로 전이하고 Lock 액션을 수행하면 됩니다.
 
 
-```csharp
+```csharp [|3-7|9-12|13-20|21-28|29-44]
 public class Turnstile
 {
 	private static TurnstileState lockedState = new LockedTurnstileState();
@@ -201,14 +201,10 @@ State Pattern
 ![_](https://upload.wikimedia.org/wikipedia/commons/e/ec/W3sDesign_State_Design_Pattern_UML.jpg)
 
 Note:
-두 패턴의 UML 을 보면 아주 비슷한 것을 알 수 있습니다.
-두 패턴 모두 Context 가 있고, 파생형이 있는 여러가지 다형적인 기반클래스에게 동작을 위임한다는 공통점이 있습니다. 차이라고 한다면 파생형 클래스가 Context를 들고 있다는 점이 있습니다. 이 참조를 통해서 Context 의 메서드를 호출할 수 있고, 상태를 바꿀 수 있다는 것이 스테이트 패턴에서의 중심점입니다.
-반면 스트레터지 패턴에서는 이런 제약이 없습니다. 즉, 스테이트 패턴은 스트레터지 패턴의 변형이라고 볼 수 있는것 입니다. 다만 사용의 이유를 생각해 보면 언제 다르게 써야 하는지를 알 수 있습니다.
-
----
-### Applicability
-- 
-
+두 패턴의 UML 을 보면 아주 비슷한 것을 알 수 있습니다.</br>
+두 패턴 모두 Context 가 있고, 파생형이 있는 여러가지 다형적인 기반클래스에게 동작을 위임한다는 공통점이 있습니다.</br>
+차이라고 한다면 파생형 클래스가 Context를 들고 있다는 점이 있습니다. 이 참조를 통해서 Context 의 메서드를 호출할 수 있고, 상태를 바꿀 수 있다는 것이 스테이트 패턴에서의 중심점입니다.</br>
+반면 스트레터지 패턴에서는 이런 제약이 없습니다. 즉, 스테이트 패턴은 스트레터지 패턴의 변형이라고 볼 수 있는것 입니다. 다만 사용의 이유를 생각해 보면 언제 다르게 써야 하는지를 알 수 있습니다.</br>
 
 ---
 ### Pros and Cons
@@ -217,8 +213,17 @@ Note:
 - New states without changing. (OCP)
 - Simplify the code of the context
 
+Note:
+장점으로는 상태에 대한 것을 개별 클래스로 분리할 수 있다는 것 입니다.</br>
+상태에 대한 점을 Switch 케이스가 아니라 상태로 분리할 수 있다는 것은 코드를 조금 더 책임에 따라 나눌 수 있다는 것을 의미합니다.</br>
+두 번째로는 새로운 스테이트를 추가하기 위해서는 기존의 코드를 크게 변경하지 않아도 된다는 점 입니다. OCP 를 만족하는 것 입니다.</br>
+마지막으로 Context 코드를 간단하게 만든다는 것 인데요, 여기는 조금 의견이 갈릴 수 있겠지만, 기본적으로 Switch 문으로 작성된 것과 비교를 하면 Context 에 상태 변환 로직이 빠지기 때문에 조금 더 깔끔해지는 효과가 있습니다.</br>
+
+
 #### Cons
 - Logic is scattered.
 
+Note:
+단점으로는 로직이 복잡해진다는 점.
 ---
 ## End
