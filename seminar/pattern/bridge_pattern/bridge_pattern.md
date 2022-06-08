@@ -42,12 +42,12 @@ Note:
 이런 상황에서 추가 요구사항이 와서 원과 정사각형을 빨간색과 파란색으로 표현할 수 있어야 하는 상황이 되었습니다.<br>
 가장 간단한 방법은 클래스를 더 만드는 것 입니다.
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuShCAqajIajCJbK8paWiIAtcqdOfIYpNqEIgvU82YoZOrEZgAWIbfZXd5YNdf28BEkMKfa94qPG65vOc5c4eXOewfEQb06q60000)
 
 Note: 이런 식으로 각각 Red / Blue 클래스를 만들면 구현하는 입장에서 편하겠죠. 생각없이 구현할 수 있으니까요
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuShCAqajIajCJbK8paWiIAtcqdOfIYpNqEIgvN9CAYufIamkKN3EB4hEIKNmWmjB4ujIkRZ0EXHiQdHrOKh055GeA3K5YwXJJcagX8-a7MOYc49eHn55Q8SAEwJcfG1z0000)
 
 Note:
@@ -56,7 +56,7 @@ Note:
 여기서 잠깐 생각해 볼게요, 만약 여기서 노란색을 만들어야 한다. 혹은 삼각형을 만들어야 한다.<br>
 어떤 클래스들이 생성되어야 할까요?
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuShCAqajIajCJbK8paWiIAtcqdOfIYpNqEIgvN9CAYufIamkKGXAJG5B8aISSafJ8K9SO4h1faPN5w4Eoa08EsSM9UTW4GykB4qiIaKs0s4od8MG01k3LGPga4DgNWhGLm00)
 
 Note:
@@ -68,7 +68,7 @@ Note:
 이 두 자유도는 서로 독립적입니다.<br>
 이 독립적인 차원을 서로 분리하는 것이 브리지 패턴의 효용입니다.<br>
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuN9CAYufIamkKGZEI2n8hUPILd3Epyaluj9sAKeirz3agkNYoimhIIrAIqnEXKfnWPKgvEiMPQPdbEX2HA62DZMwG87CekISL6IHuCBInA9KBh1AY4XGQWeorocdD9NB8JKl1UWc0000)
 
 Note:
@@ -90,7 +90,7 @@ Note:
 그런데 시대가 바뀌어 새로운 타입의 모뎀이 생겨났죠<br>
 dial과 hangup이 필요 없는 전용모뎀 dedicated modem이 생겼습니다.
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/TO_F2W8X4CRlynJUmrU8XHOAjYvjFO3e5CAiBVxfKhrxRYgPq6bcVlpy-EoS5zQ7YK0RZ_OY9BB3JU7qW1KRqQWuZYXHtn5UbTDhGOHsiPOrZfqmrp172IG9vzWuV7BoDPpgQx-jhnwLbiAZIX2ajf9oZGrfDBwWQ9uTMe2yCCxNoOFA_azBRSZb60ypVnOvTMnWgjh0vdb9BG4DBX4D_lqs-wPtQ5IOw0q0)
 
 Note:
@@ -98,14 +98,14 @@ Note:
 하지만 이렇게 될 경우 기존의 ModemClient를 싹 다 띁어고쳐야 하죠<br>
 기존에 어댑터 패턴을 이용해서는 이렇게 문제를 해결했습니다.
 
-
+___
 #### Adaptor Solution
 ![_](https://www.plantuml.com/plantuml/png/RL71IWCn4BtFLynTumU8b8g52gqNMpyW9DCQIBDBalLI1GyLHAyUFBJY1uWNFVf5RZx2ORl5LNAQdRVpvhqtwOSeVQmM5eoBv6TI4PuLcXPBsCE1aPRBgNJpgkIF2JdDvPmKcIk26m1bPGWu6JMKjXjDkzrusEq6f8sIaNG37cjPiYYu8XB6eiHYbfyuHCrMlZ--yBBnaZQtc1xNzVjR_NgVDf_fxla00xlRHxyrLpyyOLglqiiggxpCfp5UsJR_YJNauWvYzaKW3v2rX-AwjsL1EuX2zFv9GcSj_zuHsjkXgChVBQDf1XmFC-1V3JmIc7V85oHBSyQXpxdvmNy0)
 
 Note:
 중간에 인터페이스를 호환시켜 줄 어댑터를 만들어서 구현하는 방법입니다.
 
-
+___
 #### Dimension
 ![_](https://www.plantuml.com/plantuml/png/VOyz2W8n48NxEKKki5UGBGIBrKelC6IU44XMsIITXxSm-6HOBFD-NhwPQzEjzP8bhGtRNIF2vM4e8Z5hhU6OD7-4yOQbg0qsKby_JFqvlGwZpPZpk7nT_FPoyyhvH4L-2cEFdmkxEoPdTapYm1mDpC70oE9kSnSBwpv0gF-16Qlrajy0)
 
@@ -114,7 +114,7 @@ Note:
 계층구조에 두 가지 자유도가 포함되어 있고 각각 '연결방법'에 대한 자유도와 '제조사'에 따른 자유도를 확인할 수 있습니다.<br>
 자유도가 중첩되어 있는 것을 보았으니 이것을 분리해서 브리지 패턴을 만들어봅니다.
 
-
+___
 #### Bridge Solution
 ![_](https://www.plantuml.com/plantuml/png/fPBFoXCn5CNtzoakk9Jn0Rhu-C22IdLZzG7Ip9qIo2Hb9kEcAXMgYBeGMh12ArsgY0Ywz8awUGYJwLM6Clq3Gc7kJS_zvPmarwKJXQjo3SeuAZ8X2H_ObF8ftCI-4ZfyxWephYQX6999m-SXIL9F29wrPlgKAYaSfJpS8PQga9hfjxKYutWf3ZykgG3W0fFawe08hR7cx_qgY57f2Y4TOwqn99so9bIki5fJCOKRJP1x-KI7CeRXCZhaabt6xfBSnZf2JPb3cntV6NiOWNupssjYGta88ABEVtYFVZttd-O0nn59DKcUSjgpiiCpExpJQ43zCt3H3P_QywgB6aAdf6ai7058BSeIXuD6nztWKRkxVsVViOQ3T8A19qzgc7T20xnpdq-fzL8kllgHTSxcQBCE2lOQoExdRwR4-_Tlr_NtR_NsjT_yyYzNjngk_pZx2wxVB77tuqNu-SqAdqV7s7uWR3bm_zzp5wQ7zTVFzMABzPUbV_MkNgpFEUe8pcT-_CL0nyxdXk0wfAbo_GS0)
 
@@ -153,7 +153,7 @@ Note:
 장점으로는 추상화와 구현체를 분리할 수 있다는 것입니다.<br>
 이것은 곧 OCP와 SRP를 만족시킬 수 있다는 이야기가 됩니다<br>
 
-
+___
 ### Cons
 - Complecated
 
