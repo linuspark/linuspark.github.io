@@ -4,7 +4,6 @@ Note:
 오늘 이야기하려는 패턴은 옵저버 패턴입니다.
 
 ---
-
 ### Subscribe 
 ### Notify
 
@@ -37,18 +36,19 @@ UML을 보면 이런식으로 구성되어 있습니다.<br>
 
 #### Purpose 
 Get time data from Clock when time is updated.
+
 Note:
 구현하고자 하는 것은 Clock 객체에서 Time정보를 받아와서 Digital Clock에 업데이트 하는 것.<br>
 이것을 구현하기 위해 가장 간단한 해결방법으로 ClockDriver라는 것을 만들어서 업데이트 할 수 있게 합니다.
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuKhEIImkLd3EoK_Eve9oN3BJCqiISr34m1oNeioor28kBYIEWcvAVdcUhXr40JOPDECSKlDIWFO20000)
 
 Note:
 ClockDriver는 Clock에게서 getTimes를 하여 DigitalClock에게 setTimes를 하는 역할을 합니다.<br>
 그런데 이렇게 구성해 놓으면 테스트를 할 수 없으니까 테스트를 위해서 인터페이스를 추가합니다.
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/ROv12W8n34NtEKKlq2l8W7C3lK2fcJ5Csf4qSUNX1SaY1PVX_VV8ChI8McEeNCP8Lpxh0TGLPIiLqvqQtawJYZvOQISj_7T7_O3OMONUA03XI9bnqtm9uHaBxK_d7lpXbEsLFvFcdmGSh0Nxmnf_0G00)
 
 Note:
@@ -56,13 +56,13 @@ Note:
 Mock 을 이용해서 TimeSource와 TimeSink 를 구현하면 됩니다.
 Mock 을 달면 다음 그림처럼 됩니다.
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/ROx13S8m34NldY8BP0LKYLuvmG9HS8jL9qMEmudXGL5LEMgFyVl_vmr5WsXD3953AUxAQro0ig9C8Q9xKCBxMYNY5hZz-U4uqamQ-BHCUJ7L_MJ_6uK-A01WNiupJkelrg33GlDhvssnOUVhst-xMgzy4h3w5hTPOts40-PdJVm3)<!-- .slide: section=data-auto-animate -->
 
 Note:
 이제 Mock 을 이용해서 Clock Driver를 테스트 해볼게요.
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/ROx13S8m34NldY8BP0LKYLuvmG9HS8jL9qMEmudXGL5LEMgFyVl_vmr5WsXD3953AUxAQro0ig9C8Q9xKCBxMYNY5hZz-U4uqamQ-BHCUJ7L_MJ_6uK-A01WNiupJkelrg33GlDhvssnOUVhst-xMgzy4h3w5hTPOts40-PdJVm3)<!-- .slide: section=data-auto-animate -->
 ```cs [|5-7|9,14|10-12,15-17]
 [TestFixture]
@@ -85,6 +85,7 @@ public class ClockDeriverTest{
 	}
 }
 ```
+
 Note:
 이런 식의 ClockDriver Test코드를 구성할 수 있습니다.<br>
 ClockDriver를 생성할 때 TimeSource와 TimeSink를 함께 넘겨줍니다. <br>
@@ -94,7 +95,7 @@ ClockDriver는 TimeSource의 시간이 바뀐것을 어떻게 알 수 있을까�
 TimeSource가 변경되었을 때 Driver에게 알려주는 방식이 좋겠습니다.<br>
 다시 UML 로 넘어가서. 
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuShCAqajIajCJbK8oSnD3SulBKfEvKhEIImkLl3DJyv62AAhpCpBHb875uAAEUS01LsACijIYxYuk91u2hevgMabkdP8rg5A5sMcPu3a4IQYkaD1jxH0jmP5Fx83eD88xGwfUIb0Zm80)
 
 Note:
@@ -103,7 +104,7 @@ TimeSource 에서 Driver에게 시간이 변경된 것을 알려주려면 TimeSo
 그리고 Time 이 업데이트가 될 때 Driver 를 업데이트 시켜주면 되겠죠<br>
 그렇게 UML 을 업데이트하면 다음 그림처럼 됩니다.
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/RP11JiOW48NtSmgMDHOEO0nfebjNrGCGEhMaq3R3u4QzkoWcfUHV0VE-ztWmH3R4ANXm6oFDng9uTG77FP75JxWVaP_9VI1rPRc3Rx3Un2XUThkswE-vM_hGnyoraMvRMwfDAnJypvvy7fPhi_7jc0nNFgXa8JtEB7NL7SwjK8hS-y9AwThp81uFGoOW8-bhsX-Uuyv6TJyXqo6_AlNw5HUvTBb5wFfzCE0sfU1_0000)<!-- .slide: section=data-auto-animate -->
 
 Note:
@@ -112,7 +113,7 @@ TimeSource에 SetDriver 함수를 만들어서 Driver를 들고 있을 수 있�
 TimeSourceMock 에서 SetTime 함수가 호출되면, Clock Driver의 Update 함수를 호출하면 되겠죠<br>
 코드도 같이 볼게요<br>
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/RP11JiOW48NtSmgMDHOEO0nfebjNrGCGEhMaq3R3u4QzkoWcfUHV0VE-ztWmH3R4ANXm6oFDng9uTG77FP75JxWVaP_9VI1rPRc3Rx3Un2XUThkswE-vM_hGnyoraMvRMwfDAnJypvvy7fPhi_7jc0nNFgXa8JtEB7NL7SwjK8hS-y9AwThp81uFGoOW8-bhsX-Uuyv6TJyXqo6_AlNw5HUvTBb5wFfzCE0sfU1_0000)<!-- .slide: section=data-auto-animate -->
 ```cs[|2,7-9|10-12|21-23|27,33-37]
 public interface TimeSource {
@@ -163,7 +164,7 @@ Note:
 그럼 Driver의 Update 함수는 자신이 들고 있는 TimeSink 의 시간을 업데이트 할 수 있습니다. <br>
 TimeSink는 SetTime 함수가 호출되어서 자기 시간을 업데이트 하겠죠
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/RP11JiOW48NtSmgMDHOEO0nfebjNrGCGEhMaq3R3u4QzkoWcfUHV0VE-ztWmH3R4ANXm6oFDng9uTG77FP75JxWVaP_9VI1rPRc3Rx3Un2XUThkswE-vM_hGnyoraMvRMwfDAnJypvvy7fPhi_7jc0nNFgXa8JtEB7NL7SwjK8hS-y9AwThp81uFGoOW8-bhsX-Uuyv6TJyXqo6_AlNw5HUvTBb5wFfzCE0sfU1_0000)<!-- .slide: section=data-auto-animate -->
 
 Note:
@@ -173,7 +174,7 @@ UML 을 보니 순환참조를 하고 있는 것이 있네요.<br>
 TimeSource를 사용하기 위해서는 무조건 ClockDriver를 사용할 수 밖에 없는거죠<br>
 이 문제를 해결하기 위해서 인터페이스를 하나 더 만들어봅니다
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/RP1D3i8W48Ntd89bZIr7Q9herhYe7W3fr992smpGZNftwmyAf3kOUT-RULCPoz4whOWSB63B1T2Jr52F3WNSoBO6UxmOm1amswbHzFwt8GyY53U67fPgohp-MPVht2owr5iEVQgAtRoAV6llmNkKC-02dgU6su0BxACDrwI14otSLDpBc4aK2bfRbC55oFz96NCJOsNCHpZAQ-VvJvumdL_WruqF6RJzy3L56g22eN5QFG40)
 
 Note:
@@ -184,7 +185,7 @@ ClockObserver를 만들어서 순환 참조를 없앴습니다.<br>
 TimeSink 에서 ClockObserver 역할을 해도 될 것 같아 보입니다. <br>
 그렇게 하면 Clock Driver라는 구현체를 없애도 될 것 같아요<br>
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/ROv13e8m44NtSuekCKAFG4XS6nVe0MePfQ4jP3frezvTN11Qmd9-tdjj4rWHHsV1U4PwA8tYQXosOoIDRpYso9TxG7eX5ISxwc6v3l05RLK8uZolM-T_5ttfoh336Jz0ybwMdVNRr2bER5ZZGaeopvwbh3CB88sBAaxLfnOvadzpOTO5zeXjf47VHMT_)
 
 Note:
@@ -192,14 +193,14 @@ Note:
 여기에 TimeSource에서 여러개의 TimeSink가 시간을 받을 수 있으면 좋겠습니다.<br>
 Observer가 하나가 아니라 여러개를 등록할 수 있도록 바꾸겠습니다. 
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/ROwn3e8m48RtUugEgD34rO6GE1iJqGUevOI65aZlwgA-kpWGg67y__xVrok8bUVWB9YEqJ-KHd4r3ii-U8qls5smDZI-dE-4_ea-ETfUjrFQm0UqLKJYDBOHM2B_SjAaBgMLdUbQM7mQQKVyDbIA5pJCSY6bDtN3KkOH1R2KYomCsJkFnH2VEMtc1jOMVn9n47ifjr1WLmLdlm00)
 
 Note:
 뭔가 그럴듯 해졌죠.
 코드로 한번 볼게요
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/ROwn3e8m48RtUugEgD34rO6GE1iJqGUevOI65aZlwgA-kpWGg67y__xVrok8bUVWB9YEqJ-KHd4r3ii-U8qls5smDZI-dE-4_ea-ETfUjrFQm0UqLKJYDBOHM2B_SjAaBgMLdUbQM7mQQKVyDbIA5pJCSY6bDtN3KkOH1R2KYomCsJkFnH2VEMtc1jOMVn9n47ifjr1WLmLdlm00)
 ```cs [|5-7|9,12|10,13,15-19|26-36|28-30|31-35|45-49]
 [TestFixture]
@@ -263,7 +264,7 @@ TimeSource와 Sink 를 만든 뒤에 Source에게 Sink를 등록시켜 줍니다
 그러다가 SetTime 으로 시간이 변경될 타이밍이 되면 들고 있는 모든 Observer들의 Update를 호출해주는거죠<br>
 그런 Observer인 TimeSink 는 Update 함수가 호출되었으니, 자신의 시간을 업데이트 할 수 있습니다.
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/ROwn3e8m48RtUugEgD34rO6GE1iJqGUevOI65aZlwgA-kpWGg67y__xVrok8bUVWB9YEqJ-KHd4r3ii-U8qls5smDZI-dE-4_ea-ETfUjrFQm0UqLKJYDBOHM2B_SjAaBgMLdUbQM7mQQKVyDbIA5pJCSY6bDtN3KkOH1R2KYomCsJkFnH2VEMtc1jOMVn9n47ifjr1WLmLdlm00)
 
 Note:
@@ -272,7 +273,7 @@ Note:
 갱신 작업을 하는 코드를 중복해서 만들기 싫을 뿐더러 우리가 사용할 Clock 객체에 Observer의 등록/업데이트 작업이 속한다는 생각도 들지 않습니다.<br>
 그래서 Observer의 등록과 업데이트 작업을 따로 빼서 공통된 모듈로 만들겠습니다.
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/PP3D2e9058Ntzoa6scWvGji24LfNaFK0utZLmH_bpZM8wjqpI7HeUORlV6UuiML5F3GrgDGoAStYQXfCke4qFc5pmS9OHZgd5kcEv1tgJbTJyc5rwjZa3wyCci3wUtY3hfMruZXIZYX1_kOV-C-PjW8mBIFbIgDmPiRwhSyKBzemouKaKvGi8wSZTc8RXck0vOAGGozVaMi7zwyJCxy0nDXcuuq-)
 
 ```cs [|3]
@@ -288,7 +289,7 @@ TimeSource를 추상클래스로 바꾸고 TimeSource 내에서 Observer를 등�
 상속받은 클래스에서는 그냥 Notify함수를 호출하기만 하면 Observer들에게 알림이 갑니다.<br>
 최종 UML을 한번 그려보면 다음과 같이 됩니다.<br>
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/LP1D2i8m48NtSug0crQRWbk5Kj2rWjK3fEcq3QO_95D1rBiRYzfc6TxxlXScjIGC3Oq6aLioGX8xgmQpRZ0I7x0wOQKieJdc5iqDJR3JdRp-NY4i3XsfyXxKKHFPS0ila5fOoyQQupEaZ--R_-EzgXG9FRO0LEiMIY6HUNQ7N_f2q8o6wNEC6rNLn1EFOHksZkCbm7o1yQ7dpyItWnTDNaYnBTn1tW00)
 
 Note:
@@ -314,7 +315,7 @@ Note:
 중요한 것은 Notify 신호를 줄 때 전달하고자 하는 데이터를 함께 전달해준다는 것입니다. <br>
 각각 언제 사용하면 될까요? <br>
 
-
+___
 ### Pull Model
 ![_](https://www.plantuml.com/plantuml/png/NOz12y8m38Nl-HKzReuEl7eO0pqhAFw0haj7jMwZJGLH_xl56X5l8U-zxoLj8EKfNXnefq8GXzYTK9EuGxN7mGP2N-owWFwAleHgEv4rjwA49u0TasYKHi6653hElIBCXanSkqcVF_F63fQKoolWBjby2IknhEi5l0r2nba-6Zu9EFohSGx-L8U64ZONjJZswSCN)
 ```cs
@@ -330,7 +331,7 @@ Note:
 코드를 보면 알겠지만, Notify와 Update함수는 그냥 이벤트에 대한 신호 역할만 수행합니다.  <br>
 신호를 받으면 Digital Clock이 알아서 시간을 가져와야 하는거죠. <br>
 
-
+___
 ### Push Model
 ![_](https://www.plantuml.com/plantuml/png/JO_F2i8m38VlUOeUDxSEl7eO0pqhA3v0rsMpslsXIGLHtztYhEmMak_x9Qc8bMFVMz1M4OcJhw-eMJmXEs9dYD4bXvhGtT6baEr7DkqZkUHzJYcy0SmGY5Pf594Avdbg5EE2chEtTjItNxqpdM5bvnR4hRBynsp4kYXMy0M4z9DybV4uYF9o5ZseS6Z2Fny0)
 ```cs
