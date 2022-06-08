@@ -25,12 +25,11 @@ Note:
 
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuKhEIImkLWWkpon9pk3Ap2j9BKfBJ4w52YGcvQGgL7CfA6Whb9GMvVdx8PXfQLorKCq-cUaP9L2sMs8U5nT4iuAk7P8nN61L2hgb1RerAE907LX47LBpKe3E0m00)
 
-
 Note:
 비교적 깔끔한 해결 방법이죠.
 이제 게속해서 Switch로 제어할 객체가 생겨도 문제가 없습니다.
 
-___
+---
 ### Interface Ownership
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuIf8JCvEJ4zL283IrLp9EOd5nGh1vPaboHbScNabgKLfYScfK874f1oG6WK5ROMIqg8yVpy4CosDgnO88TfzCjCpIg1ijyGyBYw8TWLTEoI3kC2g57HB2tHhKCI1Eh28EgJcfG2T3000)
 
@@ -40,8 +39,6 @@ Note:
 ILight가 아닌 거죠. Light를 제어하기 위한 인터페이스니까 ILight라고 생각할 수도 있지만 인터페이스를 생각할 때에는 인터페이스를 사용하는 입장, 그러니까 클라이언트를 먼저 생각해야 합니다.
 인터페이스와 그 인터페이스를 구현한 파생형 클래스 보다, 인터페이스와 클라이언트 사이의 "논리적 구속력"이 더 크다는 사실을 기억해야 합니다. 
 기본적으로 인터페이스와 그 상속된 클래스를 같은 패키지에 넣기 쉽지만, 그것이 아니라 인터페이스는 해당 인터페이스를 사용하는 클래스와 같은 패키지에 구성되어야 합니다.
-
-
 
 
 ## Adaptor Pattern
@@ -102,7 +99,7 @@ Note:
 위임으로 할 때 처럼 위임할 클래스를 연결하거나 하는 작업이 필요가 없어요, 그냥 상속받은 함수를 사용하기만 하면 됩니다.
 단점은 강한 결합이 생긴다는 것 입니다.
 
-___
+---
 ### Example : Modem
 
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuShCAqajIajCJbNmpKz9pQtcqbPmoKpC0L8UYNdffGL0Hd1gNWgG2afDJiqiI-MgvU9ApaaiBbO8zWPhWVAyGv1vFkvGNcPHSWxKREUSpDIy4Yuk98w2hguTH98BQfg2Rcc1RWrCq3i4Yw2FEnP11w0ZWVu10000)
@@ -142,11 +139,9 @@ Adaptor를 이용해서 해결한 모습입니다.
 DedicatedAdaptor가 중간에서 호출을 위임하도록 하고 사용하지 않는 함수들은 알아서 시뮬레이션 해줍니다.
 Modem의 인터페이스가 변경되더라고 DedUser에게는 영향이 없겠죠, DedicatedAdaptor가 해당 변화를 흡수해주기 때문입니다.
 
-___
-
+---
 ## Applicability
 - When compatibility of incompatible interface.
-- 
 
 ---
 ### Pros and cons
@@ -154,8 +149,6 @@ ___
 - Compatibility of incompatible interface(OCP)
 - It can isolate interface problem(SRP)
 
----
-### Pros and cons
 #### Cons
 - Complexity
 
