@@ -153,6 +153,9 @@ ___
 #### Pros
 - Compatibility of incompatible interface(OCP)
 - It can isolate interface problem(SRP)
+
+---
+### Pros and cons
 #### Cons
 - Complexity
 
