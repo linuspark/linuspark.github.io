@@ -11,7 +11,7 @@ Note:
 이 UML을 개선시킬 것 입니다.
 지금의 상황에서 Switch로 제어해야 하는 것이 Light뿐만 아니라 FAN이 생겼습니다.
 
-
+-----
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuKhEIImkLWWkpon9pe1oV3BJCqgWRBV4F8WSWi_51H5HqBM3AWKA8eI076I1qWBT6ZkO-GwfUIb0Im40)
 
 Note:
@@ -22,7 +22,7 @@ Note:
 기존의 코드를 변경하고 싶지 않다는 마음과 어떻게든 목적은 달성해야겠다는 생각이 있으니까요
 이 것을 추상 서버 패턴으로 풀어보겠습니다.
 
-
+-----
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuKhEIImkLWWkpon9pk3Ap2j9BKfBJ4w52YGcvQGgL7CfA6Whb9GMvVdx8PXfQLorKCq-cUaP9L2sMs8U5nT4iuAk7P8nN61L2hgb1RerAE907LX47LBpKe3E0m00)
 
 Note:
@@ -40,7 +40,7 @@ ILight가 아닌 거죠. Light를 제어하기 위한 인터페이스니까 ILig
 인터페이스와 그 인터페이스를 구현한 파생형 클래스 보다, 인터페이스와 클라이언트 사이의 "논리적 구속력"이 더 크다는 사실을 기억해야 합니다. 
 기본적으로 인터페이스와 그 상속된 클래스를 같은 패키지에 넣기 쉽지만, 그것이 아니라 인터페이스는 해당 인터페이스를 사용하는 클래스와 같은 패키지에 구성되어야 합니다.
 
-
+---
 ## Adaptor Pattern
 
 Note:
@@ -55,14 +55,14 @@ switch가 light를 이용해야 합니다. 이런식으로 구현을 할 수 있
 그런데 만약 Light가 외부 라이브러리에서 가져온 것 이라서 이런식으로 ISwitchable 인터페이스를 상속받을 수 없다고 합시다.
 하지만 내 Code는 이미 ISwitchable을 사용하도록 작성되어 있어요. 이럴 경우 어댑터 패턴을 사용할 수 있습니다.
 
-
+-----
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuKhEIImkLWWkpon9pk3Ap2j9BKfBJ4w52YGcvQHMSoaeQ2kKb1Rb-USXc6bfNBLGlJwPwHabZYc91K2zo49SN11357Jja8pZGbQke5jQe5k3HzeEOfI2bOAIZKrAQavgUc99Qh6TdHANGsfU2j3z0000)
 
 Note:
 이런 식으로 ISwitchable 을 상속받는 어뎁터 클래스를 만들고 그 LightAdaptor가 외부 라이브러리인 Light를 제어하도록 하면 됩니다.
 말 그대로 어댑터의 역할을 하는거죠
 
-
+-----
 ```python [|13|2-3|5-10|9-10]
 class Light(object):
     def specific_request(self):
@@ -110,7 +110,7 @@ Note:
 이런 와중에 전용 모뎀이라는 것이 생겼습니다. 전용 모뎀은 회선 양쪽에서 전용으로 동작하기 때문에 Dial을 걸거나 Hangup을 할 필요가 없어요. 
 그럼 이제 이 전용 모뎀을 사용하는 Application을 개발해야 하는 상황입니다.
 
-
+-----
 ![_](https://www.plantuml.com/plantuml/png/TO_F2W8X4CRlynJUmrU8XHOAjYvjFO3e5CAiBVxfKhrxRYgPq6bcVlpy-EoS5zQ7YK0RZ_OY9BB3JU7qW1KRqQWuZYXHtn5UbTDhGOHsiPOrZfqmrp172IG9vzWuV7BoDPpgQx-jhnwLbiAZIX2ajf9oZGrfDBwWQ9uTMe2yCCxNoOFA_azBRSZb60ypVnOvTMnWgjh0vdb9BG4DBX4D_lqs-wPtQ5IOw0q0)
 
 Note:
@@ -122,7 +122,7 @@ DedUsers들은 Send/Receive 함수만 호출해서 사용하면 되고, 기존�
 호환성이 깨지게 되는 거죠
 호환성을 깨지 않는 간단한 방식을 생각해 봅니다.
 
-
+-----
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuShCAqajIajCJbNmpKz9pQtcqbPmoKpC0L8UYNdffGL0Hd1gNWgG2afDJiqiI-MgvU9ApaaiBbO8zWPhWVAyGv1vFkx8F9VKbCpan9BK5EBjoCilILL8oYyfoSzLo4z3Cy5A8GMe_zNcFGePO0FUp6rGUDCzv_MwDQyNTBoPk-LDwmokvCoYv1oehvnpCbFpIg128BD2YrEBkBYW30LTNJiq2xYGj86b8Q9G7olebXReri04lKEm2FguOn54jKC18U40z3qmCW00)
 
 Note:
@@ -131,7 +131,7 @@ DedicatedModem이 기존의 modem 인터페이스를 상속받아서 사용하�
 하지만 조금 깔끔하지는 않죠. DedUsers들은 사용하지도 않는 Dial과 Hangup을 알고 있어야 합니다.
 만약 Dial/Hangup의 함수 형태가 변하거나 다른 변경사항이 생기면 DedUsers들은 영향을 받을 수 밖에 없습니다.
 
-
+-----
 ![_](https://www.plantuml.com/plantuml/png/RL71IWCn4BtFLynTumU8b8g52gqNMpyW9DCQIBDBalLI1GyLHAyUFBJY1uWNFVf5RZx2ORl5LNAQdRVpvhqtwOSeVQmM5eoBv6TI4PuLcXPBsCE1aPRBgNJpgkIF2JdDvPmKcIk26m1bPGWu6JMKjXjDkzrusEq6f8sIaNG37cjPiYYu8XB6eiHYbfyuHCrMlZ--yBBnaZQtc1xNzVjR_NgVDf_fxla00xlRHxyrLpyyOLglqiiggxpCfp5UsJR_YJNauWvYzaKW3v2rX-AwjsL1EuX2zFv9GcSj_zuHsjkXgChVBQDf1XmFC-1V3JmIc7V85oHBSyQXpxdvmNy0)
 
 Note: 
