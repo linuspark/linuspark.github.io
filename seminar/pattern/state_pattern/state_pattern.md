@@ -18,7 +18,7 @@ Note:
 흔히 우리가 오토마타를 이야기 할 때에는 유한상태머신을 이야기 합니다.
 유한 상태 머신은 위 그림 처럼 기계에는 상태가 있고, 특정 입력이 주어지면 다른 상태로 전이되는 것을 표현합니다. 위 예시에서는 S1상태에서 입력으로 1을 받게 되면 다시 S1상태로, 0을 받게 되면 S2상태로 전이됩니다.
 
-
+___
 ### Example(Turnstile)
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuOhMYbNGrRLJyCbFpavDuO9G2hef-ULvGD7Gl1o8W9L2Sdvcddufc0zL1T47aoz8B2xMJyn9BChbWklIBIt0K0AIGbA1nPAIZCIyxChyKYw7rBmKe1i1)
 
@@ -29,7 +29,7 @@ Note:
 이벤트도 두 가지 이벤트가 있죠. Coin 돈을 넣는 이벤트와 Pass 개찰구를 통과하는 이벤트.
 액션은 4가지가 있습니다. Locked 상태에서 Pass 개찰구를 통과하려고 하면 Alarm 이 울립니다. Locked 상태에서 Coin 돈을 넣는 이벤트가 발생하면 Unlock 행동이 수행되어야 합니다. 그리고 Unlocked상태로 상태가 전이되어야 합니다. Unlocked 상태에서 또 Coin 돈을 넣게 되면 Thankyou 고맙다고 하네요, Unlock 상태에서 Pass 개찰구를 지나게 되면 다시 Lock 행동이 수행되고 Locked 상태로 상태가 전이됩니다. 
 
-
+___
 ```csharp
 public class Turnstile
 {
@@ -95,7 +95,7 @@ State인터페이스를 상속받은 두 가지 상태 클래스가 있습니다
 Context 역할을 하는 Turnstile 객체는 모든 이벤트와 엑션들을 가지고 있습니다. 이벤트의 경우 특정 이벤트가 발생하였을 때 현재 상태에 따른 이벤트를 발동시키기 위해서 가지고 있는 것 이구요, 액션들은 실제로 Context가 수행해야 하는 작업들을 가지고 있는 것 입니다.
 실제 코드로 구현을 보겠습니다. 
 
-
+___
 ```csharp [|1-5|7-18|20-31]
 interface TurnstileState
 {
@@ -136,7 +136,7 @@ Note:
 Pass 이벤트에서는 Alarm 액션을 수행하게 됩니다.
 Unlocked 상태에서는 Coin 이벤트를 받으면 Thankyou 액션을 수행하고, Pass 이벤트를 받으면 Locked상태로 전이하고 Lock 액션을 수행하면 됩니다.
 
-
+___
 ```csharp [|3-7|9-12|13-20|21-28|29-44]
 public class Turnstile
 {
@@ -219,7 +219,7 @@ Note:
 두 번째로는 새로운 스테이트를 추가하기 위해서는 기존의 코드를 크게 변경하지 않아도 된다는 점 입니다. OCP 를 만족하는 것 입니다.</br>
 마지막으로 Context 코드를 간단하게 만든다는 것 인데요, 여기는 조금 의견이 갈릴 수 있겠지만, 기본적으로 Switch 문으로 작성된 것과 비교를 하면 Context 에 상태 변환 로직이 빠지기 때문에 조금 더 깔끔해지는 효과가 있습니다.</br>
 
-
+___
 #### Cons
 - Logic is scattered.
 
