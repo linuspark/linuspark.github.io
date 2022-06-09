@@ -26,7 +26,7 @@ Note:
 새로운 요구사항을 가정해보겠습니다.</br>
 Dial 함수가 동작할 때 volum 이 크게 동작하도록 하고 싶습니다.
 
-
+___
 ### Templete Method Pattern
 ```csharp
 public abstract class Modem{
@@ -54,7 +54,7 @@ LoudDialModem이 동작하는 방식은 간단합니다. </br>
 다른 기능들은 들고있는 Modem인터페이스에게 위임을 시키되 Dial 함수가 실행되면 SetVolume을 수행한 뒤에 dial 기능을 위임시킵니다.
 말 그래도 dial에 대해서 decorate만 수행하는 거죠.
 
-
+___
 ```csharp [1-7|9-21|13-16|17-20]
 public void testLoudDialModem(){
     Modem m = new KTModem();
@@ -92,14 +92,14 @@ Note:
 Send / Recv 함수가 호출되었을 때, 오고가는 데이터를 Logging 하는 함수를 추가하고 싶습니다.</br>
 기존에 LoudDialModem을 만들었던 것 처럼, Logging 하는 Modem을 만들어야겠습니다.
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/VL1DImCn4BtFhvXZ5rdHgqhfmODG1R7gFTtCXi0aMPgPNgh_tMbpQ9N5qtkyZnSogofk9veOOXRQZMuWV2cUqW6ky34wDjXGzWPFBWUTZBpHi3Ue99-5DT72gXry0mpiQiNdelxOFCq0RDOdWhrE_TSIcxf-dn4_NbdhZ0wNY-OnZN9sVvkbnqRkyC4JKt12Ix1G2367-O7c_TlFHGYtHQHOPFppnKct70VSb-ZHcxhe3e0OfVtb-dodsvlk_j9fORiSPO_79s1bJ1F_0000)
 
 Note:
 똑같이 Decorate를 만들었습니다. Send 와 Recv 하기 전에 Logging하는 역할을 수행하는 Logging Modem입니다.</br>
 실제 사용할 때에는 LoudDialModem과 Logging Modem을 모두 decorate 해서 사용하겠지요
 
-
+___
 ```csharp
 public void Main(){
     Modem m = new KTModem();
@@ -116,13 +116,13 @@ Note:
 데코레이터가 늘어날 때 마다 기존의 Modem 인터페이스에게 동작을 위임하는 코드가 중복되는 것이 마음에 들지 않습니다.</br>
 이 위임하는 코드 부분을 따로 빼서 만들고 데코레이터는 실제로 데코레이트 할 부분만 구현하도록 해야할 것 같습니다.</br>
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/VL1DImCn4BtFhvXZ5rdHgqhfeGUX5SIgzpIPXa2IMJQJNch_ksaZH9V5qtkyDsy-PfL4ZPA31nU5neFIX2ziA9pW1jTE-G8xYgR0iues3uMyaJuMI2IVx7EWHObsS0RGNgLKuslIF2hXyKVSSZQNTbSJOBUv4kppq7yjQmGsxpFYnwlFQKQ7lsEmEHE3-whZ0puPycILq1AWBTHQJrVVihKkslzA8B8Gxbc40_9XSkUGzzvfFB8pQ8gww4w0wAGUTDi-U7_NFVvsQZ6SWQB1omXO5PQ3_mO0)
 
 Note:
 이런식으로 구현하게 되면 실제 Modem인터페이스에게 위임을 하는 작업은 ModemDecorator가 모두 수행하고 ModemDecorator 를 상속받은 클래스들은 자신이 데코레이트 하고 싶은 부분만 구현할 수 있겠습니다.
 
-
+___
 ```csharp [|1-15|17-25|21-24]
 public class ModemDecorator: Modem{
 	public ModemDecorator(Modem m){
@@ -186,7 +186,7 @@ Note:
 그리고 두 번째로는 그 행동을 런타임에 추가할 수 있다는 점이지요</br>
 마지막으로는 이런 여러가지 추가 행동들이 계속해서 결합될 수 있다는 점 입니다. 여러 데코레이터를 결합하는 방식으로 행동이 추가될 수 있습니다. 
 
-
+___
 ### Cons
 - It is difficult to remove **only certain decorators.**
 - The initial code that composes the decorator is **not neat.**
