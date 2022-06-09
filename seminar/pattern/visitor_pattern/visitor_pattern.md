@@ -44,7 +44,7 @@ Note:
 디스패치는 사전에서 찾아보면 무언가를 보내는 행위, 등의 뜻을 가지고 있습니다.</br> cs에서 디스패치는 메시지를 보내어 원하는 함수를 호출하는 것을 이야기 합니다.</br>
 디스패치는 정적 디스패치와 동적 디스패치로 나눌 수 있는데요, 말 그대로 정정 디스패치는 어떤 함수를 호출할 것인지가 컴파일 타임에 이미 정해져 있는 것이고, 동적 디스패치는 런타임에 어떤 함수를 호출할 것인지 파악하여 호출하는 것을 의미합니다.
 
-
+___
 #### Static Dispatch
 ```csharp
 public class Service(){
@@ -65,7 +65,7 @@ Note:
 사실 이 코드만 보면 무엇이 dispatch를 이야기하는 것인지 의미를 알 수 없을 것입니다.</br>
 부연 설명을 하면 main은 Service의 Run함수를 호출합니다. 컴파일 시점에 이미 Service라는 클래스의 Run 함수를 호출할 것을 알고 있습니다.
 
-
+___
 #### Dynamic Dispatch
 ```csharp [|23-34|31-33|15-19|1-13|23-34]
 interface Service{
@@ -113,7 +113,7 @@ client의 함수를 보면 Service의 Run을 호출하는 것을 볼 수 있죠 
 이 것이 동적 디스패치입니다.</br>
 인자를 전달받아서 해당 인자의 함수를 호출하는것이죠.
 
-
+___
 #### Dynamic Dispatch : Double dispatch
 ```csharp [|1-3|5-13|15-19|17|23-33]
 interface Service(){
@@ -178,7 +178,7 @@ Note:
 UnixModemConfigurator 는 ModemVisitor를 상속받아 그 내용을 구현하고 있습니다.</br>
 코드로 보면 더 이해가 쉬울겁니다.
 
-
+___
 ```csharp [|1-6|8-13|15-20|17-19|18|22-32]
 public class KTModem: Modem {
 	...
