@@ -7,7 +7,7 @@ Note:
 프록시(Proxy)는 일반적으로 대리인, 대리권 등을 의미하며 컴퓨터 분야에서는 무언가가 연결될 때 인터페이스의 역할을 하는 어떠한 것을 의미합니다.</br> 
 디자인 패턴에서 프록시 패턴이란 어떤 객체에 대한 접근을 제어하는 용도의 대변인/대리인 의 역할을 하는 객체를 제공하는 패턴을 의미합니다.
 
-
+___
 ### Problem
 ![_](https://refactoring.guru/images/patterns/diagrams/proxy/problem-en-2x.png)
 
@@ -16,7 +16,7 @@ Note:
  만약 DB에 접근할 때 지연초기화를 사용하고자 한다면 각 클라이언트 코드에 지연초기화 코드를 작성해야 할 것 입니다.</br>
  이런 작업은 많은 중복을 만들어낼 수 밖에 없습니다.
 
-
+___
 ### Solution
 ![_](https://refactoring.guru/images/patterns/diagrams/proxy/solution-en-2x.png)
 
@@ -44,7 +44,7 @@ CD 커버이미지는 로컬에 저장하고 있는 것이 아니라 웹 상에�
 웹에서 이미지를 가져오는 것은 네트워크의 상황과 인터넷 속도에 따라 시간이 오래 걸릴 수도 있습니다.
 이 때, 이미지를 불러오는 동안에는 “Loading...” 이라는 이미지를 띄워주도록 구성하고 싶습니다.
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuKhEIImkLl3CJKnFTSulIosgvj9MS4yj0RF3CrDACZGqaKGyKZFJCqh0GW69cNaGGI2tbikne20dCpcn93C_Jq7N3ib0BeVKl1IWJG00)
 
 Note:
@@ -53,14 +53,14 @@ PaintCover() 함수를 호출하게 되면 웹에서 이미지를 다운받아�
 그리고 이 작업은 시간이 조금 걸리게 되죠.
 시간이 걸리는 동안 다른 이미지를 보여주기 위해서 프록시를 사용해봅니다.
 
-
+___
 ![_](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuShCAqajIajCJbLmpYzBBQhcqbPmJoq1iyCpKqeoD3IHH3nICzCpIi120OcPUH118BUMox6W82SpER4aCpzFGTSEOXQNPsvYUYgOgQ1RMg1RWo8UK9HVKObRt4u1ePlB8JKl1UXO0000)
 
 Note:
 기존에 Image Cover가 가지고 있던 함수들을 인터페이스로 분리하고 프록시와 ImageCover모두 같은 인터페이스를 상속받아 구현합니다.
 이 때 프록시는 ImageCover 객체를 가지고 있고, Image Cover가 웹에서 이미지를 모두 다운받으면 동작을 위임시킵니다. 그 전에는 프록시가 Loading.. 이라는 이미지를 UI 에 보여주게 됩니다.
 
-
+___
 ```csharp [|1-5|7-9|12|20-25|27-32|35-37|38-48]
 public interface Cover{
 	int GetCoverWidth();
@@ -69,7 +69,7 @@ public interface Cover{
 }
 
 public class ImageCover: Cover {
-	// 실제 구현체
+	// real implementation
 }
 
 public class ImageProxy: Cover {
@@ -123,7 +123,7 @@ Note:
 고객과 주문 목록(쇼핑카트), 주문 목록에 있는 상품 자체를 위한 객체 등이 있을 수 있습니다. </br>
 아주 단순한 구현은 이런 UML로 구현할 수 있습니다.</br>
 
-
+___
 ```csharp
 public class Order{
 	private List<Item> _items = new List<Item>();
@@ -137,7 +137,7 @@ Note:
 객체 모델로 구현한다고 했을 때 이런 식으로 구현할 수 있습니다.
 우리에게 익숙한 형태죠
 
-
+___
 ```csharp
 public class AddItemTransaction{
 	public void AddItem(int orderId, string sku, int qty) {
@@ -173,4 +173,3 @@ Gateway Proxy는 모든 gRPC 인터페이스에 대한 동작을 CCSDS Gateway �
 - Protected Proxy
 - Logging Proxy
 - Caching Proxy
-
